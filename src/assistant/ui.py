@@ -6,8 +6,8 @@ from typing import Dict, Optional
 
 import streamlit as st
 
-from assistant.api import AssistantAPI
-from assistant.handlers import FileHandler, RequestHandler, SurveyRequest
+from .api import AssistantAPI
+from .handlers import FileHandler, RequestHandler, SurveyRequest
 
 # Initialize session state
 if "session_id" not in st.session_state:

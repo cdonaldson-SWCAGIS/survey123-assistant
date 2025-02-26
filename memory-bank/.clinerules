@@ -25,12 +25,6 @@ project_patterns:
       - "Handle file operations carefully"
       - "Provide clear error messages"
 
-    import_patterns:
-      - "Use __init__.py to manage Python path"
-      - "Prefer relative imports within packages"
-      - "Ensure src directory is in Python path"
-      - "Use explicit imports for clarity"
-
 working_patterns:
   documentation:
     memory_bank_maintenance:
@@ -132,12 +126,6 @@ known_challenges:
       - "Session management"
       - "Resource utilization"
 
-    import_management:
-      - "Ensuring proper Python path"
-      - "Managing package dependencies"
-      - "Handling circular imports"
-      - "Maintaining import clarity"
-
   process:
     documentation:
       - "Keep memory bank updated"
@@ -164,12 +152,6 @@ best_practices:
       - "Clear naming"
       - "Good documentation"
       - "Error handling"
-
-    imports:
-      - "Use __init__.py for path management"
-      - "Prefer relative imports within packages"
-      - "Use explicit imports for clarity"
-      - "Avoid circular dependencies"
 
   documentation:
     memory_bank:
