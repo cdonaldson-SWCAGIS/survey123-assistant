@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from openai import OpenAI
 
-from assistant.api import AssistantAPI, Message, AssistantResponse
+from assistant.api import AssistantAPI, AssistantResponse, Message
 
 
 @pytest.fixture

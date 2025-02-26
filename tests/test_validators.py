@@ -2,13 +2,13 @@
 
 import pytest
 
+from xlsform_orm import AppearanceAttributes, QuestionTypes
 from xlsform_orm.validators import (
-    validate_name,
-    validate_by_type,
     check_appearance_attributes,
     check_appearance_question_combo,
+    validate_by_type,
+    validate_name,
 )
-from xlsform_orm import QuestionTypes, AppearanceAttributes
 
 
 def test_validate_name():

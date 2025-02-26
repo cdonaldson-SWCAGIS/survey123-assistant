@@ -3,13 +3,13 @@
 import pytest
 
 from xlsform_orm import (
-    Survey,
+    Choice,
+    Logic,
     Question,
     QuestionGroup,
-    Choice,
-    Range,
-    Logic,
     QuestionTypes,
+    Range,
+    Survey,
 )
 
 

@@ -8,12 +8,12 @@ import pytest
 from pydantic import ValidationError
 
 from assistant.handlers import (
+    FileHandler,
+    RequestHandler,
     SurveyRequest,
     SurveyResponse,
-    RequestHandler,
-    FileHandler,
 )
-from xlsform_orm import Survey, Question, QuestionGroup, Choice, QuestionTypes
+from xlsform_orm import Choice, Question, QuestionGroup, QuestionTypes, Survey
 
 
 @pytest.fixture

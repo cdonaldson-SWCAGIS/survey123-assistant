@@ -1,7 +1,8 @@
 """Tests for grid theme functionality."""
 
 import pytest
-from src.xlsform_orm.models import Question, QuestionGroup, Survey, QuestionTypes
+
+from src.xlsform_orm.models import Question, QuestionGroup, QuestionTypes, Survey
 from src.xlsform_orm.validators import (
     parse_grid_theme_appearance,
     validate_grid_theme_for_group,

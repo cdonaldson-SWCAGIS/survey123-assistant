@@ -4,7 +4,7 @@ from typing import Any, Dict, Iterable, List, Union
 
 import pandas as pd
 
-from .models import Question, QuestionGroup, Choice
+from .models import Choice, Question, QuestionGroup
 
 
 def items_to_dfs(

@@ -4,15 +4,15 @@ import pytest
 from pydantic import ValidationError
 
 from xlsform_orm import (
-    Survey,
+    Choice,
+    GroupTypes,
+    Logic,
+    LogicTypes,
     Question,
     QuestionGroup,
-    Choice,
-    Range,
-    Logic,
     QuestionTypes,
-    LogicTypes,
-    GroupTypes,
+    Range,
+    Survey,
 )
 
 

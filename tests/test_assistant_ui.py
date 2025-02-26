@@ -7,15 +7,15 @@ import pytest
 import streamlit as st
 
 from assistant.ui import (
-    initialize_session,
-    st_init_null,
-    setup_page,
-    handle_file_upload,
     display_current_survey,
     handle_chat,
+    handle_file_upload,
+    initialize_session,
     main,
+    setup_page,
+    st_init_null,
 )
-from xlsform_orm import Survey, Question, QuestionTypes
+from xlsform_orm import Question, QuestionTypes, Survey
 
 
 @pytest.fixture
