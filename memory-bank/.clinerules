@@ -1,0 +1,181 @@
+project_patterns:
+  file_organization:
+    core_library_files:
+      xlsform_orm_py: "Main library implementation"
+      make_assistant_py: "Chat assistant implementation"
+      requirements_txt: "Python dependencies"
+      bumpver_toml: "Version management"
+      docker_files: "Container configuration (docker-compose.yml & Dockerfile)"
+    
+    memory_bank_structure:
+      core_docs: "Core documentation in memory-bank/*.md"
+      project_intel: "Project intelligence in .clinerules"
+      purpose: "Each file serves a specific documentation purpose"
+
+  code_patterns:
+    xlsform_orm:
+      - "Use Pydantic models for data validation"
+      - "Implement factory methods for object creation"
+      - "Follow composition pattern for survey structure"
+      - "Maintain clear class hierarchy"
+
+    chat_assistant:
+      - "Use Streamlit for web interface"
+      - "Implement session state management"
+      - "Handle file operations carefully"
+      - "Provide clear error messages"
+
+working_patterns:
+  documentation:
+    memory_bank_maintenance:
+      - "Update activeContext.md for current work"
+      - "Track progress in progress.md"
+      - "Document decisions in systemPatterns.md"
+      - "Keep technical details in techContext.md"
+
+    code_documentation:
+      - "Use comprehensive docstrings"
+      - "Include usage examples"
+      - "Document edge cases"
+      - "Explain complex logic"
+
+  development_flow:
+    before_changes:
+      - "Check memory bank for context"
+      - "Review relevant documentation"
+      - "Understand current state"
+      - "Plan changes carefully"
+
+    during_changes:
+      - "Follow established patterns"
+      - "Maintain consistency"
+      - "Document decisions"
+      - "Consider impact"
+
+    after_changes:
+      - "Update memory bank"
+      - "Document new patterns"
+      - "Track progress"
+      - "Plan next steps"
+
+user_preferences:
+  code_style:
+    python:
+      - "Use type hints"
+      - "Follow PEP 8"
+      - "Clear variable names"
+      - "Comprehensive docstrings"
+
+    documentation:
+      - "Markdown format"
+      - "Clear structure"
+      - "Regular updates"
+      - "Complete information"
+
+  project_structure:
+    organization:
+      - "Separate core library"
+      - "Clear documentation"
+      - "Logical file structure"
+      - "Consistent naming"
+
+    dependencies:
+      - "Minimal external dependencies"
+      - "Clear requirements"
+      - "Version pinning"
+      - "Regular updates"
+
+tool_usage:
+  development_tools:
+    version_control:
+      - "Git for source control"
+      - "bumpver for versions"
+      - "pre-commit hooks"
+      - "Clear commit messages"
+
+    docker:
+      - "Container-based development"
+      - "docker-compose for services"
+      - "Environment isolation"
+      - "Resource management"
+
+  testing:
+    approach:
+      - "Unit tests for components"
+      - "Integration tests for workflows"
+      - "Performance testing"
+      - "Load testing"
+
+    documentation:
+      - "Test cases documented"
+      - "Coverage reports"
+      - "Performance metrics"
+      - "Issue tracking"
+
+known_challenges:
+  technical:
+    survey_complexity:
+      - "Handle large surveys"
+      - "Complex logic validation"
+      - "Resource management"
+      - "Performance optimization"
+
+    chat_assistant:
+      - "Response consistency"
+      - "Error handling"
+      - "Session management"
+      - "Resource utilization"
+
+  process:
+    documentation:
+      - "Keep memory bank updated"
+      - "Track decisions"
+      - "Document patterns"
+      - "Maintain clarity"
+
+    development:
+      - "Follow patterns"
+      - "Consider impact"
+      - "Plan changes"
+      - "Test thoroughly"
+
+best_practices:
+  code:
+    structure:
+      - "Clear organization"
+      - "Logical grouping"
+      - "Consistent patterns"
+      - "Proper separation"
+
+    style:
+      - "Type safety"
+      - "Clear naming"
+      - "Good documentation"
+      - "Error handling"
+
+  documentation:
+    memory_bank:
+      - "Regular updates"
+      - "Complete information"
+      - "Clear structure"
+      - "Track progress"
+
+    code_docs:
+      - "Comprehensive docstrings"
+      - "Usage examples"
+      - "Edge cases"
+      - "Complex logic"
+
+evolution_notes:
+  project_growth:
+    tracking:
+      - "New patterns"
+      - "Changed approaches"
+      - "Learned lessons"
+      - "Improvements made"
+
+    updates:
+      - "Documentation"
+      - "Best practices"
+      - "Known issues"
+      - "Future plans"
