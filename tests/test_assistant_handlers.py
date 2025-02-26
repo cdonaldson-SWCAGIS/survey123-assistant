@@ -1,4 +1,5 @@
 """Tests for Survey123 Assistant request and response handlers."""
+
 import os
 import tempfile
 from unittest.mock import patch
@@ -21,13 +22,7 @@ def basic_survey():
     return Survey(
         name="test_survey",
         label="Test Survey",
-        items=[
-            Question(
-                type=QuestionTypes.text,
-                name="q1",
-                label="Question 1"
-            )
-        ]
+        items=[Question(type=QuestionTypes.text, name="q1", label="Question 1")],
     )
 
 
@@ -39,34 +34,24 @@ def survey_request():
         survey_name="test_survey",
         survey_label="Test Survey",
         questions=[
-            {
-                "type": "text",
-                "name": "q1",
-                "label": "Question 1"
-            },
+            {"type": "text", "name": "q1", "label": "Question 1"},
             {
                 "type": "select_one",
                 "name": "q2",
                 "label": "Question 2",
                 "choices": [
                     {"value": "a", "label": "Option A"},
-                    {"value": "b", "label": "Option B"}
-                ]
-            }
+                    {"value": "b", "label": "Option B"},
+                ],
+            },
         ],
         groups=[
             {
                 "name": "group1",
                 "label": "Group 1",
-                "items": [
-                    {
-                        "type": "text",
-                        "name": "q3",
-                        "label": "Question 3"
-                    }
-                ]
+                "items": [{"type": "text", "name": "q3", "label": "Question 3"}],
             }
-        ]
+        ],
     )
 
 
@@ -85,7 +70,7 @@ def test_survey_request_validation():
         survey_label="Test",
         questions=[{"type": "text", "name": "q1", "label": "Q1"}],
         groups=[{"name": "g1", "label": "G1", "items": []}],
-        file_path="test.xlsx"
+        file_path="test.xlsx",
     )
     assert request.survey_name == "test"
     assert len(request.questions) == 1
@@ -99,7 +84,7 @@ def test_survey_response_validation():
         success=True,
         message="Success",
         survey=Survey(name="test", label="Test", items=[]),
-        file_path="test.xlsx"
+        file_path="test.xlsx",
     )
     assert response.success
     assert response.message == "Success"
@@ -107,11 +92,7 @@ def test_survey_response_validation():
     assert response.error is None
 
     # Test error response
-    response = SurveyResponse(
-        success=False,
-        message="Failed",
-        error="Error message"
-    )
+    response = SurveyResponse(success=False, message="Failed", error="Error message")
     assert not response.success
     assert response.error == "Error message"
     assert response.survey is None
@@ -153,13 +134,7 @@ def test_request_handler_modify_survey(basic_survey, tmp_path):
     request = SurveyRequest(
         action="modify",
         file_path=file_path,
-        questions=[
-            {
-                "type": "text",
-                "name": "q2",
-                "label": "New Question"
-            }
-        ]
+        questions=[{"type": "text", "name": "q2", "label": "New Question"}],
     )
 
     handler = RequestHandler()
@@ -242,12 +217,7 @@ def test_request_handler_create_complex_survey():
         survey_name="complex_survey",
         survey_label="Complex Survey",
         questions=[
-            {
-                "type": "text",
-                "name": "name",
-                "label": "Your name",
-                "required": True
-            },
+            {"type": "text", "name": "name", "label": "Your name", "required": True},
             {
                 "type": "select_multiple",
                 "name": "interests",
@@ -255,16 +225,16 @@ def test_request_handler_create_complex_survey():
                 "choices": [
                     {"value": "tech", "label": "Technology"},
                     {"value": "art", "label": "Art"},
-                    {"value": "science", "label": "Science"}
+                    {"value": "science", "label": "Science"},
                 ],
-                "allow_other": True
+                "allow_other": True,
             },
             {
                 "type": "range",
                 "name": "age",
                 "label": "Your age",
-                "range": {"start": 18, "end": 100, "step": 1}
-            }
+                "range": {"start": 18, "end": 100, "step": 1},
+            },
         ],
         groups=[
             {
@@ -272,17 +242,9 @@ def test_request_handler_create_complex_survey():
                 "label": "Contact Information",
                 "type": "group",
                 "items": [
-                    {
-                        "type": "email",
-                        "name": "email",
-                        "label": "Email address"
-                    },
-                    {
-                        "type": "text",
-                        "name": "phone",
-                        "label": "Phone number"
-                    }
-                ]
+                    {"type": "email", "name": "email", "label": "Email address"},
+                    {"type": "text", "name": "phone", "label": "Phone number"},
+                ],
             },
             {
                 "name": "education",
@@ -293,16 +255,12 @@ def test_request_handler_create_complex_survey():
                     {
                         "type": "text",
                         "name": "institution",
-                        "label": "Institution name"
+                        "label": "Institution name",
                     },
-                    {
-                        "type": "date",
-                        "name": "graduation",
-                        "label": "Graduation date"
-                    }
-                ]
-            }
-        ]
+                    {"type": "date", "name": "graduation", "label": "Graduation date"},
+                ],
+            },
+        ],
     )
 
     handler = RequestHandler()

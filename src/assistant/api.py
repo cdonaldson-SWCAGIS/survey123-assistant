@@ -1,4 +1,5 @@
 """OpenAI API integration for Survey123 Assistant."""
+
 import os
 from typing import Dict, List, Optional, Union
 
@@ -8,6 +9,7 @@ from pydantic import BaseModel
 
 class Message(BaseModel):
     """A chat message."""
+
     role: str
     content: str
     file_ids: Optional[List[str]] = None
@@ -15,6 +17,7 @@ class Message(BaseModel):
 
 class AssistantResponse(BaseModel):
     """Response from the assistant."""
+
     messages: List[Message]
     file_ids: Optional[List[str]] = None
     output_content: Optional[str] = None
@@ -40,13 +43,13 @@ class AssistantAPI:
             import importlib.util
             import sys
             from pathlib import Path
-            
+
             # Get the path to the xlsform_orm package
             xlsform_orm_spec = importlib.util.find_spec("xlsform_orm")
             if xlsform_orm_spec and xlsform_orm_spec.origin:
                 package_path = Path(xlsform_orm_spec.origin).parent
                 models_path = package_path / "models.py"
-                
+
                 if models_path.exists():
                     file = self.client.files.create(
                         file=open(models_path, "rb"),

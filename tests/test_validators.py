@@ -1,4 +1,5 @@
 """Tests for XLSForm ORM validators."""
+
 import pytest
 
 from xlsform_orm.validators import (

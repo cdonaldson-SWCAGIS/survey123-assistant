@@ -1,4 +1,5 @@
 """Models for XLSForm ORM."""
+
 from enum import Enum
 from typing import List, Optional, Union
 
@@ -113,9 +114,9 @@ class Question(BaseModel):
     logic: Optional[List[Logic]] = None
 
     _validate_name = validator("name", allow_reuse=True)(validate_name)
-    _validate_appearance = validator("appearance_attributes", pre=True, allow_reuse=True)(
-        check_appearance_attributes
-    )
+    _validate_appearance = validator(
+        "appearance_attributes", pre=True, allow_reuse=True
+    )(check_appearance_attributes)
 
     @validator("appearance_attributes")
     def validate_grid_theme(cls, v, values):
@@ -123,7 +124,9 @@ class Question(BaseModel):
         if v and v.startswith("w"):
             columns, _ = parse_grid_theme_appearance(v)
             if values.get("parent_appearance"):
-                parent_columns, _ = parse_grid_theme_appearance(values["parent_appearance"])
+                parent_columns, _ = parse_grid_theme_appearance(
+                    values["parent_appearance"]
+                )
                 validate_grid_theme_for_group(columns, 1, parent_columns)
         return v
 
@@ -145,9 +148,9 @@ class QuestionGroup(BaseModel):
     items: List[Union["QuestionGroup", Question]] = []
 
     _validate_name = validator("name", allow_reuse=True)(validate_name)
-    _validate_appearance = validator("appearance_attributes", pre=True, allow_reuse=True)(
-        check_appearance_attributes
-    )
+    _validate_appearance = validator(
+        "appearance_attributes", pre=True, allow_reuse=True
+    )(check_appearance_attributes)
 
     @validator("appearance_attributes")
     def validate_grid_theme(cls, v, values):
@@ -155,14 +158,18 @@ class QuestionGroup(BaseModel):
         if v and v.startswith("w"):
             columns, span = parse_grid_theme_appearance(v)
             if values.get("parent_appearance"):
-                parent_columns, _ = parse_grid_theme_appearance(values["parent_appearance"])
+                parent_columns, _ = parse_grid_theme_appearance(
+                    values["parent_appearance"]
+                )
                 validate_grid_theme_for_group(columns, span, parent_columns)
             # Always check if span exceeds available columns
             if ":" in v:
                 _, span_value = v[1:].split(":")
                 span = int(span_value)
                 if span > columns:
-                    raise ValueError(f"Group span {span} exceeds available columns {columns}")
+                    raise ValueError(
+                        f"Group span {span} exceeds available columns {columns}"
+                    )
         return v
 
     def __init__(self, **data):

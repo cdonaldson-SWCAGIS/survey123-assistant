@@ -1,4 +1,5 @@
 """Request and response handlers for Survey123 Assistant."""
+
 import os
 import tempfile
 from typing import Dict, List, Optional, Tuple, Union
@@ -12,6 +13,7 @@ from xlsform_orm import Survey, Question, QuestionGroup, Choice, QuestionTypes
 
 class SurveyRequest(BaseModel):
     """A request to create or modify a survey."""
+
     action: str
     survey_name: Optional[str] = None
     survey_label: Optional[str] = None
@@ -22,6 +24,7 @@ class SurveyRequest(BaseModel):
 
 class SurveyResponse(BaseModel):
     """Response containing survey operation results."""
+
     success: bool
     message: str
     survey: Optional[Survey] = None
@@ -160,8 +163,7 @@ class RequestHandler:
         # Handle choices for select questions
         if data.get("choices"):
             choices = [
-                Choice(value=c["value"], label=c["label"])
-                for c in data["choices"]
+                Choice(value=c["value"], label=c["label"]) for c in data["choices"]
             ]
             data["choices"] = choices
 

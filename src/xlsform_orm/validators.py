@@ -1,4 +1,5 @@
 """Validators for XLSForm ORM."""
+
 import re
 from typing import Optional, Tuple
 
@@ -37,13 +38,13 @@ def check_appearance_attributes(appearance: Optional[str]) -> Optional[str]:
 
 def parse_grid_theme_appearance(appearance: str) -> Tuple[int, int]:
     """Parse grid theme appearance parameter.
-    
+
     Args:
         appearance: The appearance parameter string (e.g., "w4" or "w3:2")
-        
+
     Returns:
         Tuple of (columns, span)
-        
+
     Raises:
         ValueError: If the appearance parameter is invalid
     """
@@ -72,19 +73,21 @@ def validate_grid_theme_for_group(
     columns: int, span: int, parent_columns: Optional[int] = None
 ) -> bool:
     """Validate grid theme parameters for a group.
-    
+
     Args:
         columns: Number of columns in this group's grid
         span: Number of parent columns this group spans
         parent_columns: Number of columns in parent grid (if any)
-        
+
     Returns:
         True if valid
-        
+
     Raises:
         ValueError: If parameters are invalid
     """
     if parent_columns is not None and span > parent_columns:
-        raise ValueError(f"Group span {span} exceeds available columns {parent_columns}")
+        raise ValueError(
+            f"Group span {span} exceeds available columns {parent_columns}"
+        )
 
     return True

@@ -1,4 +1,5 @@
 """Lightweight library supporting XLSForm-as-code."""
+
 from enum import Enum
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
@@ -9,6 +10,7 @@ from pydantic import BaseModel, Field, model_validator, field_validator
 
 class LogicTypes(Enum):
     """Valid logic types."""
+
     trigger = "trigger"
     skip = "skip"
     relevant = "relevant"
@@ -17,12 +19,14 @@ class LogicTypes(Enum):
 
 class Logic(BaseModel):
     """Logic for flow control and constraints."""
+
     type: Union[LogicTypes, str] = Field(..., description="logic type")
     expression: str = Field(..., description="logic expression")
     message: Optional[str] = Field(None, description="constraint message")
 
     class Config:
         """pydantic configuration."""
+
         use_enum_values = True
 
     @field_validator("message")
@@ -35,25 +39,33 @@ class Logic(BaseModel):
 
 class Choice(BaseModel):
     """An individual choice for a rank or multiple choice question."""
+
     value: str = Field(..., description="The value of the choice")
     label: str = Field(..., description="The label of the choice")
 
 
 class Range(BaseModel):
     """A value range for a range question."""
-    start: Union[int, float] = Field(..., description="the value at which the range begins")
+
+    start: Union[int, float] = Field(
+        ..., description="the value at which the range begins"
+    )
     end: Union[int, float] = Field(..., description="the value at which the range ends")
-    step: Union[int, float] = Field(..., description="the size of each division in the range")
+    step: Union[int, float] = Field(
+        ..., description="the size of each division in the range"
+    )
 
 
 class GroupTypes(Enum):
     """Valid group types."""
+
     group = "group"
     repeat = "repeat"
 
 
 class QuestionTypes(Enum):
     """Valid question types."""
+
     text = "text"
     integer = "integer"
     decimal = "decimal"
@@ -86,6 +98,7 @@ class QuestionTypes(Enum):
 
 class AppearanceAttributes(Enum):
     """Valid appearance attributes."""
+
     multiline = "multiline"
     minimal = "minimal"
     quick = "quick"
@@ -131,16 +144,21 @@ class AppearanceAttributes(Enum):
 
 class Question(BaseModel):
     """A question of any type supported by XLSForm."""
+
     type: Union[QuestionTypes, str] = Field(..., description="xlsform question type")
     name: str = Field(..., description="question name")
     label: str = Field(..., description="question label")
-    required: Optional[bool] = Field(None, description="True if question must be answered")
+    required: Optional[bool] = Field(
+        None, description="True if question must be answered"
+    )
     default: Optional[str] = Field(None, description="default answer to question")
     hint: Optional[str] = Field(None, description="hint text shown for this question")
     logics: Optional[List[Logic]] = Field(None, description="question-level logic")
 
     # calculate
-    calculation: Optional[str] = Field(None, description="expression used in calculation")
+    calculation: Optional[str] = Field(
+        None, description="expression used in calculation"
+    )
 
     # range
     range: Optional[Union[Range, Dict[str, Union[int, float]]]] = Field(
@@ -184,6 +202,7 @@ class Question(BaseModel):
 
     class Config:
         """pydantic configuration."""
+
         use_enum_values = True
 
     @field_validator("name")
@@ -193,7 +212,7 @@ class Question(BaseModel):
             raise ValueError(f"{v} cannot be used as a question name")
         return v
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     def validate_by_type(cls, model):
         """Validate by question type."""
         values = model.model_dump()
@@ -248,22 +267,27 @@ class Question(BaseModel):
         """Validate appearance attributes."""
         if v is None:
             return v
-        if isinstance(v, str) and v.startswith('w'):
+        if isinstance(v, str) and v.startswith("w"):
             return v
         type = info.data.get("type")
         if not check_appearance_question_combo(v, type):
-            raise ValueError(f"Appearance '{v}' is not compatible with question type '{type}'")
+            raise ValueError(
+                f"Appearance '{v}' is not compatible with question type '{type}'"
+            )
         return v
 
 
 class QuestionGroup(BaseModel):
     """A group of questions or subgroups."""
+
     type: str = Field(GroupTypes.group, description="xlsform entry type")
     name: str = Field(..., description="name of the group")
     label: str = Field(..., description="label of the group")
     items: List[Union[Question, "QuestionGroup"]] = Field([], description="group items")
     logics: Optional[List[Logic]] = Field(None, description="group-level logic")
-    repeat_count: Optional[Union[int, str]] = Field(None, description="number of repeats")
+    repeat_count: Optional[Union[int, str]] = Field(
+        None, description="number of repeats"
+    )
     appearance_attributes: Optional[Union[AppearanceAttributes, str]] = Field(
         None,
         description="group-level appearance attributes or grid theme format (w#:# or w#)",
@@ -275,9 +299,10 @@ class QuestionGroup(BaseModel):
 
     class Config:
         """pydantic configuration."""
+
         use_enum_values = True
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     def validate_repeat(cls, model):
         """Set type to repeat_count or raise ValueError."""
         group_type = model.type
@@ -296,7 +321,7 @@ class QuestionGroup(BaseModel):
         # Propagate appearance to items for grid theme validation
         items = model.items
         appearance = model.appearance_attributes
-        if appearance and isinstance(appearance, str) and appearance.startswith('w'):
+        if appearance and isinstance(appearance, str) and appearance.startswith("w"):
             for item in items:
                 if not hasattr(item, "parent_appearance"):
                     continue
@@ -309,11 +334,13 @@ class QuestionGroup(BaseModel):
         """Validate appearance attributes."""
         if v is None:
             return v
-        if isinstance(v, str) and v.startswith('w'):
+        if isinstance(v, str) and v.startswith("w"):
             return v
         type = info.data.get("type")
         if not check_appearance_question_combo(v, type):
-            raise ValueError(f"Appearance '{v}' is not compatible with question type '{type}'")
+            raise ValueError(
+                f"Appearance '{v}' is not compatible with question type '{type}'"
+            )
         return v
 
 
@@ -376,7 +403,7 @@ def check_appearance_question_combo(
     type: str,
 ) -> bool:
     """Check validity of appearance attribute for question type."""
-    if isinstance(appearance_attribute, str) and appearance_attribute.startswith('w'):
+    if isinstance(appearance_attribute, str) and appearance_attribute.startswith("w"):
         return True
     return (appearance_attribute, type) in Appearance_Question_Combos
 
@@ -544,9 +571,12 @@ def get_survey_args(excel_filepath: str) -> dict:
 
 class Survey(BaseModel):
     """A Pydantic model representing an XLSForm survey."""
+
     name: str = Field(..., description="name of the survey")
     label: str = Field(..., description="label of the survey")
-    items: List[Union[Question, QuestionGroup]] = Field([], description="the survey's items")
+    items: List[Union[Question, QuestionGroup]] = Field(
+        [], description="the survey's items"
+    )
 
     def get_dfs(self) -> Dict[str, pd.DataFrame]:
         """Return sheet_name: df dict for survey data."""

@@ -1,4 +1,5 @@
 """Tests for Survey123 Assistant API integration."""
+
 import os
 from unittest.mock import MagicMock, patch
 
@@ -18,10 +19,13 @@ def mock_openai():
 @pytest.fixture
 def mock_env_vars():
     """Mock environment variables."""
-    with patch.dict(os.environ, {
-        "OPENAI_API_KEY": "test-key",
-        "OPENAI_ORG_ID": "test-org",
-    }):
+    with patch.dict(
+        os.environ,
+        {
+            "OPENAI_API_KEY": "test-key",
+            "OPENAI_ORG_ID": "test-org",
+        },
+    ):
         yield
 
 

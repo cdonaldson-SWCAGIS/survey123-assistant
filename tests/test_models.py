@@ -1,4 +1,5 @@
 """Tests for XLSForm ORM models."""
+
 import pytest
 from pydantic import ValidationError
 
@@ -79,18 +80,14 @@ def test_invalid_question_name():
         Question(
             type=QuestionTypes.text,
             name="SELECT",  # Reserved keyword
-            label="Invalid question"
+            label="Invalid question",
         )
 
 
 def test_invalid_question_type():
     """Test that using an invalid question type raises ValidationError."""
     with pytest.raises(ValidationError):
-        Question(
-            type="invalid_type",
-            name="test_question",
-            label="Invalid question"
-        )
+        Question(type="invalid_type", name="test_question", label="Invalid question")
 
 
 def test_missing_required_fields():
@@ -98,7 +95,7 @@ def test_missing_required_fields():
     with pytest.raises(ValidationError):
         Question(
             type=QuestionTypes.text,
-            name="test_question"
+            name="test_question",
             # Missing required 'label' field
         )
 
@@ -110,17 +107,14 @@ def test_invalid_range_values():
             type=QuestionTypes.range,
             name="invalid_range",
             label="Invalid range",
-            range=Range(start=100, end=0, step=5)  # Invalid: start > end
+            range=Range(start=100, end=0, step=5),  # Invalid: start > end
         )
 
 
 def test_invalid_logic_type():
     """Test that invalid logic type raises ValidationError."""
     with pytest.raises(ValidationError):
-        Logic(
-            type="invalid_logic",
-            expression="${q1} = 'yes'"
-        )
+        Logic(type="invalid_logic", expression="${q1} = 'yes'")
 
 
 def test_constraint_logic_requires_message():
@@ -128,7 +122,7 @@ def test_constraint_logic_requires_message():
     with pytest.raises(ValidationError):
         Logic(
             type=LogicTypes.constraint,
-            expression="${age} >= 18"
+            expression="${age} >= 18",
             # Missing required message for constraint type
         )
 
@@ -140,7 +134,7 @@ def test_repeat_group_requires_count():
             name="invalid_repeat",
             label="Invalid Repeat Group",
             type=GroupTypes.repeat,
-            items=[]
+            items=[],
             # Missing required repeat_count
         )
 
@@ -157,11 +151,7 @@ def test_choice_validation():
 def test_survey_validation():
     """Test survey validation."""
     with pytest.raises(ValidationError):
-        Survey(
-            name="",  # Empty name not allowed
-            label="Test Survey",
-            items=[]
-        )
+        Survey(name="", label="Test Survey", items=[])  # Empty name not allowed
 
 
 def test_question_type_specific_validation():
@@ -180,7 +170,7 @@ def test_question_type_specific_validation():
         type=QuestionTypes.geopoint,
         name="location",
         label="Location",
-        accuracyThreshold=5.0
+        accuracyThreshold=5.0,
     )
     assert question.accuracyThreshold == 5.0
 

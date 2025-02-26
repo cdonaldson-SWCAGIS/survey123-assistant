@@ -1,7 +1,11 @@
 """Tests for grid theme functionality."""
+
 import pytest
 from src.xlsform_orm.models import Question, QuestionGroup, Survey, QuestionTypes
-from src.xlsform_orm.validators import parse_grid_theme_appearance, validate_grid_theme_for_group
+from src.xlsform_orm.validators import (
+    parse_grid_theme_appearance,
+    validate_grid_theme_for_group,
+)
 
 
 def test_parse_grid_theme_appearance():
@@ -42,7 +46,9 @@ def test_validate_grid_theme_for_group():
     # Test valid cases
     assert validate_grid_theme_for_group(4, 1) is True  # No parent
     assert validate_grid_theme_for_group(2, 2, parent_columns=4) is True  # With parent
-    assert validate_grid_theme_for_group(3, 3, parent_columns=3) is True  # Equal to parent
+    assert (
+        validate_grid_theme_for_group(3, 3, parent_columns=3) is True
+    )  # Equal to parent
 
     # Test invalid cases
     with pytest.raises(ValueError, match="Group span .* exceeds available columns"):
@@ -56,7 +62,7 @@ def test_question_grid_theme():
         type=QuestionTypes.TEXT,
         name="q1",
         label="Question 1",
-        appearance_attributes="w2"
+        appearance_attributes="w2",
     )
     assert question.appearance_attributes == "w2"
 
@@ -66,7 +72,7 @@ def test_question_grid_theme():
             type=QuestionTypes.TEXT,
             name="q2",
             label="Question 2",
-            appearance_attributes="w"
+            appearance_attributes="w",
         )
 
 
@@ -82,15 +88,15 @@ def test_group_grid_theme():
                 type=QuestionTypes.TEXT,
                 name="q1",
                 label="Question 1",
-                appearance_attributes="w2"
+                appearance_attributes="w2",
             ),
             Question(
                 type=QuestionTypes.TEXT,
                 name="q2",
                 label="Question 2",
-                appearance_attributes="w2"
-            )
-        ]
+                appearance_attributes="w2",
+            ),
+        ],
     )
     assert group.appearance_attributes == "w4"
     assert group.items[0].parent_appearance == "w4"
@@ -111,11 +117,11 @@ def test_group_grid_theme():
                         type=QuestionTypes.TEXT,
                         name="q1",
                         label="Question 1",
-                        appearance_attributes="w1"
+                        appearance_attributes="w1",
                     )
-                ]
+                ],
             )
-        ]
+        ],
     )
     assert nested_group.appearance_attributes == "w6"
     assert nested_group.items[0].appearance_attributes == "w3:2"
@@ -132,11 +138,13 @@ def test_group_grid_theme():
                     name="child",
                     label="Child Group",
                     appearance_attributes="w2:5",  # Invalid: spans 5 columns of parent's 4
-                    items=[]
+                    items=[],
                 )
-            ]
+            ],
         )
-    assert "Group span" in str(excinfo.value) and "exceeds available columns" in str(excinfo.value)
+    assert "Group span" in str(excinfo.value) and "exceeds available columns" in str(
+        excinfo.value
+    )
 
 
 def test_survey_grid_theme():
@@ -154,21 +162,21 @@ def test_survey_grid_theme():
                         type=QuestionTypes.TEXT,
                         name="first_name",
                         label="First Name",
-                        appearance_attributes="w1"  # Takes 1 column
+                        appearance_attributes="w1",  # Takes 1 column
                     ),
                     Question(
                         type=QuestionTypes.TEXT,
                         name="last_name",
                         label="Last Name",
-                        appearance_attributes="w1"  # Takes 1 column
+                        appearance_attributes="w1",  # Takes 1 column
                     ),
                     Question(
                         type=QuestionTypes.TEXT,
                         name="address",
                         label="Address",
-                        appearance_attributes="w2"  # Takes full width (2 columns)
-                    )
-                ]
+                        appearance_attributes="w2",  # Takes full width (2 columns)
+                    ),
+                ],
             ),
             QuestionGroup(
                 name="nested_example",
@@ -184,15 +192,15 @@ def test_survey_grid_theme():
                                 type=QuestionTypes.TEXT,
                                 name="age",
                                 label="Age",
-                                appearance_attributes="w1"
+                                appearance_attributes="w1",
                             ),
                             Question(
                                 type=QuestionTypes.TEXT,
                                 name="gender",
                                 label="Gender",
-                                appearance_attributes="w2"
-                            )
-                        ]
+                                appearance_attributes="w2",
+                            ),
+                        ],
                     ),
                     QuestionGroup(
                         name="contact_details",
@@ -203,19 +211,19 @@ def test_survey_grid_theme():
                                 type=QuestionTypes.TEXT,
                                 name="email",
                                 label="Email",
-                                appearance_attributes="w1"
+                                appearance_attributes="w1",
                             ),
                             Question(
                                 type=QuestionTypes.TEXT,
                                 name="phone",
                                 label="Phone",
-                                appearance_attributes="w1"
-                            )
-                        ]
-                    )
-                ]
-            )
-        ]
+                                appearance_attributes="w1",
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
     )
 
     # Verify the structure was created successfully
@@ -223,7 +231,9 @@ def test_survey_grid_theme():
     contact_info = survey.items[0]
     assert contact_info.appearance_attributes == "w2"
     assert len(contact_info.items) == 3
-    assert contact_info.items[2].appearance_attributes == "w2"  # Address takes full width
+    assert (
+        contact_info.items[2].appearance_attributes == "w2"
+    )  # Address takes full width
 
     nested_example = survey.items[1]
     assert nested_example.appearance_attributes == "w6"

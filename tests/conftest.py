@@ -1,4 +1,5 @@
 """Shared test fixtures for XLSForm ORM."""
+
 import pytest
 
 from xlsform_orm import (
@@ -16,9 +17,7 @@ from xlsform_orm import (
 def basic_question():
     """Return a basic text question."""
     return Question(
-        type=QuestionTypes.text,
-        name="text_question",
-        label="What is your name?"
+        type=QuestionTypes.text, name="text_question", label="What is your name?"
     )
 
 
@@ -33,7 +32,7 @@ def choice_question():
             Choice(value="r", label="Red"),
             Choice(value="b", label="Blue"),
             Choice(value="g", label="Green"),
-        ]
+        ],
     )
 
 
@@ -44,7 +43,7 @@ def range_question():
         type=QuestionTypes.range,
         name="range_question",
         label="Number of individuals observed:",
-        range=Range(start=0, end=100, step=5)
+        range=Range(start=0, end=100, step=5),
     )
 
 
@@ -52,9 +51,7 @@ def range_question():
 def question_group(basic_question, choice_question):
     """Return a question group."""
     return QuestionGroup(
-        name="group1",
-        label="Group 1",
-        items=[basic_question, choice_question]
+        name="group1", label="Group 1", items=[basic_question, choice_question]
     )
 
 
@@ -66,7 +63,7 @@ def repeat_group(basic_question):
         label="Repeating group",
         type="repeat",
         repeat_count=3,
-        items=[basic_question]
+        items=[basic_question],
     )
 
 
@@ -77,22 +74,17 @@ def survey_with_logic(basic_question, choice_question):
         name="conditional_group",
         label="Conditional Questions",
         items=[choice_question],
-        logics=[
-            Logic(
-                type="relevant",
-                expression="${text_question} != ''"
-            )
-        ]
+        logics=[Logic(type="relevant", expression="${text_question} != ''")],
     )
     return Survey(
-        name="logic_survey",
-        label="Survey with Logic",
-        items=[basic_question, group]
+        name="logic_survey", label="Survey with Logic", items=[basic_question, group]
     )
 
 
 @pytest.fixture
-def complex_survey(basic_question, choice_question, range_question, question_group, repeat_group):
+def complex_survey(
+    basic_question, choice_question, range_question, question_group, repeat_group
+):
     """Return a complex survey with various question types and groups."""
     return Survey(
         name="complex_survey",
@@ -104,14 +96,14 @@ def complex_survey(basic_question, choice_question, range_question, question_gro
                 type=QuestionTypes.geopoint,
                 name="location",
                 label="Current location",
-                accuracyThreshold=5.0
+                accuracyThreshold=5.0,
             ),
             repeat_group,
             Question(
                 type=QuestionTypes.calculate,
                 name="total",
                 label="Total value",
-                calculation="sum(${range_question})"
-            )
-        ]
+                calculation="sum(${range_question})",
+            ),
+        ],
     )

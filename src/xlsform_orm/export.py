@@ -1,4 +1,5 @@
 """Export functionality for XLSForm ORM."""
+
 from typing import Any, Dict, Iterable, List, Union
 
 import pandas as pd
@@ -70,12 +71,12 @@ def items_to_dfs(
 def prep_for_excel(df: pd.DataFrame) -> pd.DataFrame:
     """
     Perform transformations on data as needed for XLSForm parsing.
-    
+
     Parameters
     ----------
     df : pd.DataFrame
         The DataFrame to prepare for Excel export.
-        
+
     Returns
     -------
     pd.DataFrame
@@ -93,12 +94,12 @@ def prep_for_excel(df: pd.DataFrame) -> pd.DataFrame:
 def get_survey_args(excel_filepath: str) -> dict:
     """
     Return Survey-parseable dict from Excel file.
-    
+
     Parameters
     ----------
     excel_filepath : str
         Path to the Excel file to parse.
-        
+
     Returns
     -------
     dict

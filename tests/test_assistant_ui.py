@@ -1,4 +1,5 @@
 """Tests for Survey123 Assistant UI."""
+
 import os
 from unittest.mock import MagicMock, patch
 
@@ -27,18 +28,22 @@ def mock_streamlit():
 @pytest.fixture
 def mock_session_state():
     """Mock Streamlit session state."""
-    with patch.dict(st.session_state, {
-        "session_id": "test-session",
-        "messages": [],
-        "retry_error": 0,
-        "api": MagicMock(),
-        "file_handler": MagicMock(),
-        "request_handler": MagicMock(),
-        "run": None,
-        "output_content": None,
-        "current_survey": None,
-        "current_file_path": None,
-    }, clear=True):
+    with patch.dict(
+        st.session_state,
+        {
+            "session_id": "test-session",
+            "messages": [],
+            "retry_error": 0,
+            "api": MagicMock(),
+            "file_handler": MagicMock(),
+            "request_handler": MagicMock(),
+            "run": None,
+            "output_content": None,
+            "current_survey": None,
+            "current_file_path": None,
+        },
+        clear=True,
+    ):
         yield st.session_state
 
 
@@ -48,13 +53,7 @@ def basic_survey():
     return Survey(
         name="test_survey",
         label="Test Survey",
-        items=[
-            Question(
-                type=QuestionTypes.text,
-                name="q1",
-                label="Question 1"
-            )
-        ]
+        items=[Question(type=QuestionTypes.text, name="q1", label="Question 1")],
     )
 
 
@@ -95,7 +94,11 @@ def test_handle_file_upload_success(mock_streamlit, mock_session_state, basic_su
     mock_streamlit.file_uploader.return_value = mock_file
 
     # Mock file handler
-    st.session_state.file_handler.load_survey.return_value = (True, "Success", basic_survey)
+    st.session_state.file_handler.load_survey.return_value = (
+        True,
+        "Success",
+        basic_survey,
+    )
 
     # Test file upload
     with patch("builtins.open", MagicMock()) as mock_open:
@@ -140,7 +143,9 @@ def test_display_current_survey(mock_streamlit, mock_session_state, basic_survey
     assert mock_expander.write.call_count == 3  # name, label, items count
 
 
-def test_display_current_survey_download(mock_streamlit, mock_session_state, basic_survey, tmp_path):
+def test_display_current_survey_download(
+    mock_streamlit, mock_session_state, basic_survey, tmp_path
+):
     """Test survey download functionality."""
     st.session_state.current_survey = basic_survey
 
@@ -151,7 +156,11 @@ def test_display_current_survey_download(mock_streamlit, mock_session_state, bas
 
     # Mock file handler
     file_path = os.path.join(tmp_path, "test.xlsx")
-    st.session_state.file_handler.save_survey.return_value = (True, "Success", file_path)
+    st.session_state.file_handler.save_survey.return_value = (
+        True,
+        "Success",
+        file_path,
+    )
 
     # Test download
     with patch("builtins.open", MagicMock()):
@@ -166,15 +175,9 @@ def test_handle_chat(mock_streamlit, mock_session_state):
     mock_streamlit.chat_input.return_value = "Test message"
 
     # Mock API response
-    mock_message = MagicMock(
-        role="assistant",
-        content="Test response",
-        file_ids=None
-    )
+    mock_message = MagicMock(role="assistant", content="Test response", file_ids=None)
     mock_response = MagicMock(
-        messages=[mock_message],
-        file_ids=None,
-        output_content=None
+        messages=[mock_message], file_ids=None, output_content=None
     )
     st.session_state.api.send_message.return_value = mock_response
 
@@ -191,14 +194,10 @@ def test_handle_chat_with_file(mock_streamlit, mock_session_state):
 
     # Mock API response with file
     mock_message = MagicMock(
-        role="assistant",
-        content="Test response",
-        file_ids=["test-file"]
+        role="assistant", content="Test response", file_ids=["test-file"]
     )
     mock_response = MagicMock(
-        messages=[mock_message],
-        file_ids=["test-file"],
-        output_content="file content"
+        messages=[mock_message], file_ids=["test-file"], output_content="file content"
     )
     st.session_state.api.send_message.return_value = mock_response
 
